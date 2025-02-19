@@ -1,10 +1,14 @@
-# Order Data Analysis
+# Order Data Analysis - SQL Queries
 
-This project uses **Streamlit** to showcase **15 SQL queries** for analyzing order data. The queries help in identifying key business insights such as revenue-generating products, profit margins, discounts, and regional sales trends.
+## Overview
+This document contains a set of SQL queries used to analyze order data, focusing on product performance, regional profitability, discount analysis, and shipping mode efficiency.
 
-## Database Used: `order_data_analysis`
+## Database Used
+**Database Name:** `order_data_analysis`
 
-### 1. Top 10 Revenue-Generating Products
+## Queries
+
+### 1. Top 10 Revenue Generating Products
 ```sql
 SELECT p.product_id, SUM(oi.quantity * oi.sale_price) AS total_revenue
 FROM order_details oi
@@ -26,11 +30,9 @@ ORDER BY profit_margin DESC
 LIMIT 5;
 ```
 
-### 3. Total Discount Given per Category
+### 3. Total Discount Given for Each Category
 ```sql
-SELECT
-    c.category_name,
-    SUM(od.discount) AS total_discount
+SELECT c.category_name, SUM(od.discount) AS total_discount
 FROM order_details od
 JOIN product p ON od.product_id = p.product_id
 JOIN category c ON p.category_id = c.category_id
@@ -61,9 +63,7 @@ LIMIT 1;
 
 ### 6. Total Profit per Category
 ```sql
-SELECT
-    c.category_name,
-    SUM(od.profit) AS total_profit
+SELECT c.category_name, SUM(od.profit) AS total_profit
 FROM order_details od
 JOIN product p ON od.product_id = p.product_id
 JOIN category c ON p.category_id = c.category_id
@@ -83,8 +83,7 @@ LIMIT 3;
 
 ### 8. Average Discount Percentage Given per Region
 ```sql
-SELECT r.region,
-       ROUND(AVG(oi.discount), 2) AS discount_average_region
+SELECT r.region, ROUND(AVG(oi.discount), 2) AS discount_average_region
 FROM orders o
 JOIN order_details oi ON o.order_id = oi.order_id
 JOIN location_details r ON o.location_id = r.location_id
@@ -95,9 +94,7 @@ LIMIT 5;
 
 ### 9. Product Category with the Highest Total Profit
 ```sql
-SELECT
-    c.category_name,
-    SUM(od.profit) AS total_profit
+SELECT c.category_name, SUM(od.profit) AS total_profit
 FROM order_details od
 JOIN product p ON od.product_id = p.product_id
 JOIN category c ON p.category_id = c.category_id
@@ -108,22 +105,26 @@ LIMIT 1;
 
 ### 10. Total Revenue Generated per Year
 ```sql
-SELECT
-    YEAR(o.order_date) AS order_year,
-    ROUND(SUM(od.sale_price * od.quantity), 2) AS total_revenue
+SELECT YEAR(o.order_date) AS order_year, ROUND(SUM(od.sale_price * od.quantity), 2) AS total_revenue
 FROM order_details od
 JOIN orders o ON od.order_id = o.order_id
 GROUP BY order_year
 ORDER BY order_year ASC;
 ```
 
-## Usage
-- Run the **Streamlit** app to visualize the results of these queries interactively.
-- Modify or expand the queries to gain further insights into the dataset.
+### 11-21 Additional Queries
+More queries cover profitability of shipping modes, top profitable products, category-wise revenue trends, loss-making products, seasonal sales trends, regional profitability, and impact of discounting strategies.
 
-## Contributing
-Feel free to suggest improvements or add more queries to enhance the analysis!
+For a full list of queries, refer to the SQL script provided.
 
----
-This README provides clear explanations and formatting for easy readability on GitHub. Let me know if you need further tweaks!
+## Usage Instructions
+- Ensure MySQL is installed and configured.
+- Use the provided database schema and table structures.
+- Execute the queries in sequence to analyze different aspects of the order dataset.
+
+## Author
+This SQL query set was designed for analyzing e-commerce order data with a focus on data-driven decision-making.
+
+## License
+MIT License.
 
